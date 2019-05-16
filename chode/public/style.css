@@ -1,0 +1,112 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Lists {
+  /* background-color: #EAEBED ; */
+  /* background-color: white; */
+  float: left;
+  list-style: none;
+  margin: 0 0 3em 0;
+  width: 100%;
+}
+
+.logo {
+  font-family: "Fjalla One", sans-serif;
+  margin-right: 19px;
+  font-size: 2rem;
+}
+
+.Lists li {
+  float: left;
+  padding: 5px;
+}
+
+.list-item {
+  margin-top: 5px;
+}
+
+.list-item a {
+  display: inline-block;
+  color: #363551;
+  margin-right: 8px;
+  font-size: 1.2rem;
+  font-family: "Fira Sans", sans-serif;
+  text-decoration: none;
+}
+
+.list-item a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s;
+}
+
+.list-item a:hover::after {
+  width: 100%;
+}
+
+/* end of navbar styling  */
+
+.Disclaimer {
+  float: right;
+  width: 45vw;
+  margin-right: 5vw;
+  padding: 15px;
+  font-family: "Fjalla One", sans-serif;
+  border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px;
+}
+
+.Form-container {
+  width: 40vw;
+  height: 50vh;
+  margin-left: 5vw;
+  background-color: white;
+  float: left;
+  /* border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px; */
+}
+
+.input {
+  font-family: "Fjalla One", sans-serif;
+  width: 20vw;
+  margin-left: 5vw;
+  color: red;
+}
+
+.message-input {
+  width: 40vw;
+}
+
+/* button styles */
+.button-class {
+  font-family: "Fjalla One", sans-serif;
+  background-color: white;
+  border-style: dashed;
+  width: 6rem;
+  height: 3rem;
+  border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.button-class:hover {
+  transform: scale(1.1);
+  background-color: black;
+  color: white;
+  outline: none;
+  border-color: white;
+}
+
+.button-class:active {
+  transform: translateY(10%);
+  outline: none;
+}
