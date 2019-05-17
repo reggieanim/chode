@@ -1,31 +1,103 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
+import axios from "axios";
+import Loader from "./Loader";
 
 class Contact extends Component {
   state = {
     email: "",
     message: "",
-    personName: ""
+    personName: "",
+    emailError: false,
+    personNameError: false,
+    messageError: false,
+    emailErrorText: "",
+    nameErrorText: "",
+    messageErrorText: ""
   };
 
   handleChange = e => {
     e.preventDefault();
     this.setState({
+      [e.target.name + "Error"]: false,
+      [e.target.name + "ErrorText"]: "",
       [e.target.name]: e.target.value
     });
   };
 
+  validateEmail(email) {
+    const pattern = /[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z]{3,9}[\.][a-z]{2,5}/g;
+    const result = pattern.test(email);
+    if (result === true) {
+      this.setState({
+        email: email
+      });
+      return false;
+    } else {
+      this.setState({
+        emailError: true,
+        emailErrorText: "Must be a valid email"
+      });
+      return true;
+    }
+  }
+
+  validateName(name) {
+    if (name.length < 2) {
+      this.setState({
+        personNameError: true,
+        personNameErrorText: "Name must  not be less than two letters"
+      });
+      return true;
+    } else if (/\d/.test(name)) {
+      this.setState({
+        personNameError: true,
+        personNameErrorText: "Name must  not have a number"
+      });
+      return true;
+    }
+    return false;
+  }
+
+  validateMessage(message) {
+    if (message.length < 2) {
+      this.setState({
+        messageError: true,
+        messageErrorText: "Message must  not be less than two letters"
+      });
+      return true;
+    }
+    return false;
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    console.log({
-      email: this.state.email,
-      message: this.state.message,
-      name: this.state.personName
-    });
+    const emailerr = this.validateEmail(this.state.email);
+    const nameerr = this.validateName(this.state.personName);
+    const msgerr = this.validateMessage(this.state.message);
+    if (!emailerr && !nameerr && !msgerr) {
+      let axiosConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      };
+      let body = {
+        email: this.state.email,
+        name: this.state.personName,
+        message: this.state.message
+      };
+      axios
+        .post("http://localhost:8080/contact", body, axiosConfig)
+        .then(function(response) {
+          console.log(response);
+        });
+    }
   };
   render() {
     return (
       <div>
+        
         <div className="Disclaimer">
           <h1>
             CONTACT US <br /> WITH YOUR EMAIL <br /> AND MESSAGE
@@ -34,15 +106,19 @@ class Contact extends Component {
         <div className="Form-container">
           <form onSubmit={e => this.handleSubmit(e)}>
             <TextField
+              error={this.state.personNameError}
               id="outlined-name"
               label="Name"
               className="input"
               name="personName"
               margin="normal"
-              variant="outlined"
+              required
               onChange={e => this.handleChange(e)}
+              helperText={this.state.personNameErrorText}
             />
+
             <TextField
+              error={this.state.emailError}
               id="outlined-email-input"
               label="Email"
               className="input"
@@ -50,10 +126,14 @@ class Contact extends Component {
               name="email"
               autoComplete="email"
               margin="normal"
-              variant="outlined"
+              required
               onChange={e => this.handleChange(e)}
+              helperText={this.state.emailErrorText}
             />
+
             <TextField
+              error={this.state.messageError}
+              helperText={this.state.messageErrorText}
               id="outlined-multiline-flexible"
               label="Message"
               className="message-input"
@@ -62,6 +142,7 @@ class Contact extends Component {
               name="message"
               margin="normal"
               variant="outlined"
+              required
               onChange={e => this.handleChange(e)}
             />
           </form>
