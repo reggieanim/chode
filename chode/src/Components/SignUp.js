@@ -1,20 +1,39 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Redirect } from "react-router-dom";
+import IconButton from '@material-ui/core/IconButton';
 import { connect } from "react-redux";
-import { sendEmail } from "../actions/sendEmail";
+import { signUp } from "../actions/signUp";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment'
 
-class Contact extends Component {
+class SignUp extends Component {
   state = {
     email: "",
     message: "",
     personName: "",
     emailError: false,
     personNameError: false,
-    messageError: false,
+    passwordError: false,
     emailErrorText: "",
     nameErrorText: "",
-    messageErrorText: ""
+    passwordErrorText: "",
+    password: "",
+    showPassword: false
+  };
+
+  handleClickShowPassword = (e) => {
+    e.preventDefault()
+    let boolean = !this.state.showPassword
+    this.setState({ showPassword: boolean})
+  };
+
+  handleMouseDownPassword = event => {
+    event.preventDefault();
   };
 
   handleChange = e => {
@@ -60,11 +79,11 @@ class Contact extends Component {
     return false;
   }
 
-  validateMessage(message) {
-    if (message.length < 2) {
+  validatePassword(pass) {
+    if (pass.length < 6) {
       this.setState({
-        messageError: true,
-        messageErrorText: "Message must  not be less than two letters"
+        passwordError: true,
+        passwordErrorText: "Password must be more than 6 characters"
       });
       return true;
     }
@@ -75,23 +94,24 @@ class Contact extends Component {
     e.preventDefault();
     const emailerr = this.validateEmail(this.state.email);
     const nameerr = this.validateName(this.state.personName);
-    const msgerr = this.validateMessage(this.state.message);
-    if (!emailerr && !nameerr && !msgerr) {
-      const { email, personName, message } = this.state;
-      this.props.sendEmail(email, personName, message);
+    const passerr = this.validatePassword(this.state.password);
+    if (!emailerr && !nameerr && !passerr) {
+      const { email, personName, password } = this.state;
+      this.props.signUp(email, personName, password);
       this.setState({
         email: "",
         personName: "",
-        message: ""
+        password: ""
       });
     }
   };
   render() {
-    if (this.props.mail.response) {
+    if (this.props.signup.response) {
+      console.log(this.props.signup.response.data)
       return( 
       <div className="Disclaimer">
       <h1>
-        {this.props.mail.response.data}
+        Succesfully signed up
       </h1>
     </div>)
     }
@@ -100,7 +120,7 @@ class Contact extends Component {
         
         <div className="Disclaimer">
           <h1>
-            CONTACT US <br /> WITH YOUR EMAIL <br /> AND MESSAGE
+            SIGN UP <br /> WITH YOUR EMAIL , NAME <br /> AND PASSWORD 
           </h1>
         </div>
         <div className="Form-container">
@@ -130,21 +150,30 @@ class Contact extends Component {
               onChange={e => this.handleChange(e)}
               helperText={this.state.emailErrorText}
             />
-
-            <TextField
-              error={this.state.messageError}
-              helperText={this.state.messageErrorText}
-              id="outlined-multiline-flexible"
-              label="Message"
-              className="message-input"
-              multiline
-              rowsMax="4"
-              name="message"
-              margin="normal"
-              variant="outlined"
-              required
-              onChange={e => this.handleChange(e)}
-            />
+        <FormControl variant="outlined" className="input" helperText={this.state.passwordErrorText}>
+        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            error={this.state.passwordError}
+            helperText={this.state.passwordErrorText}
+            id="outlined-adornment-password"
+            name="password"
+            type={this.state.showPassword ? 'text' : 'password'}
+            value={this.state.password}
+            onChange={e => this.handleChange(e)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={ e => this.handleClickShowPassword(e)}
+                  onMouseDown={event => this.handleMouseDownPassword(event)}
+                >
+                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={70}
+          />
+          </FormControl>
           </form>
           <button
             type="submit"
@@ -160,10 +189,10 @@ class Contact extends Component {
 }
 
 const mapStateToProps = state => {
-  return { mail: state.mailReducer };
+  return { signup: state.signUpReducer};
 };
 
 export default connect(
   mapStateToProps,
-  { sendEmail }
-)(Contact);
+  { signUp }
+)(SignUp);

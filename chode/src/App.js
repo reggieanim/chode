@@ -5,6 +5,8 @@ import Home from "./Components/Home";
 import Contact from "./Components/Contact";
 import NoMatch from "./Components/NoMatch";
 import Navbar from "./Components/Navbar";
+import Auth from "./Components/Auth"
+import SignUp from "./Components/SignUp"
 
 class App extends Component {
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
           
           <Route exact path="/" component={Home} />
           <Route path="/contact" component={Contact} />
+          <Route path="/login" component={Auth} />
+          <Route path="/signup" component={SignUp} />
           <Route component={NoMatch} />
         </Switch>
       </BrowserRouter>
