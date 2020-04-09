@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Redirect } from "react-router-dom";
+import Loader from "./Loader"
+import { signUp } from '../actions/auth'
 import IconButton from '@material-ui/core/IconButton';
-import { connect } from "react-redux";
-import { signUp } from "../actions/signUp";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -11,7 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment'
 
-class SignUp extends Component {
+export default class SignUp extends Component {
   state = {
     email: "",
     message: "",
@@ -23,13 +22,16 @@ class SignUp extends Component {
     nameErrorText: "",
     passwordErrorText: "",
     password: "",
-    showPassword: false
+    showPassword: false,
+    signupError: "",
+    success: "",
+    loading: false
   };
 
   handleClickShowPassword = (e) => {
     e.preventDefault()
     let boolean = !this.state.showPassword
-    this.setState({ showPassword: boolean})
+    this.setState({ showPassword: boolean })
   };
 
   handleMouseDownPassword = event => {
@@ -41,7 +43,8 @@ class SignUp extends Component {
     this.setState({
       [e.target.name + "Error"]: false,
       [e.target.name + "ErrorText"]: "",
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      signupError: ""
     });
   };
 
@@ -97,30 +100,54 @@ class SignUp extends Component {
     const passerr = this.validatePassword(this.state.password);
     if (!emailerr && !nameerr && !passerr) {
       const { email, personName, password } = this.state;
-      this.props.signUp(email, personName, password);
-      this.setState({
-        email: "",
-        personName: "",
-        password: ""
-      });
+      this.setState({loading:true})
+      signUp(email, personName, password)
+        .then((response) => {
+          console.log(response)
+          this.setState({ success: response.data.message, loading: false })
+        }, (err) => {
+          if (err) {
+            console.log(err.response)
+            this.setState({ emailError: true,emailErrorText: err.response.data, loading:false})
+          }
+        })
+
+      // this.setState({
+      //   email: "",
+      //   personName: "",
+      //   password: ""
+      // });
     }
   };
-  render() {
-    if (this.props.signup.response) {
-      console.log(this.props.signup.response.data)
-      return( 
-      <div className="Disclaimer">
-      <h1>
-        Succesfully signed up
-      </h1>
-    </div>)
-    }
-    return (
-      <div>
-        
+
+
+
+
+  button = () => {
+      return <button
+        type="submit"
+        onClick={e => this.handleSubmit(e)}
+        className="button-class"
+      >
+        SUBMIT
+  </button>
+  }
+
+  signUpRender = () => {
+    if (this.state.success) {
+      return (
         <div className="Disclaimer">
           <h1>
-            SIGN UP <br /> WITH YOUR EMAIL , NAME <br /> AND PASSWORD 
+            {this.state.success}
+          </h1>
+        </div>)
+    }
+
+    return (
+      <div>
+        <div className="Disclaimer">
+          <h1>
+            SIGN UP <br /> WITH YOUR EMAIL , NAME <br /> AND PASSWORD
           </h1>
         </div>
         <div className="Form-container">
@@ -133,6 +160,7 @@ class SignUp extends Component {
               name="personName"
               margin="normal"
               required
+              value = {this.state.personName}
               onChange={e => this.handleChange(e)}
               helperText={this.state.personNameErrorText}
             />
@@ -147,52 +175,53 @@ class SignUp extends Component {
               autoComplete="email"
               margin="normal"
               required
+              value = {this.state.email}
               onChange={e => this.handleChange(e)}
               helperText={this.state.emailErrorText}
             />
-        <FormControl variant="outlined" className="input" helperText={this.state.passwordErrorText}>
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            error={this.state.passwordError}
-            helperText={this.state.passwordErrorText}
-            id="outlined-adornment-password"
-            name="password"
-            type={this.state.showPassword ? 'text' : 'password'}
-            value={this.state.password}
-            onChange={e => this.handleChange(e)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={ e => this.handleClickShowPassword(e)}
-                  onMouseDown={event => this.handleMouseDownPassword(event)}
-                >
-                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-          </FormControl>
+            <FormControl variant="outlined" className="input" helperText={this.state.passwordErrorText}>
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <OutlinedInput
+                error={this.state.passwordError}
+                helperText={this.state.passwordErrorText}
+                id="outlined-adornment-password"
+                name="password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                value={this.state.password}
+                onChange={e => this.handleChange(e)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={e => this.handleClickShowPassword(e)}
+                      onMouseDown={event => this.handleMouseDownPassword(event)}
+                    >
+                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+            </FormControl>
           </form>
-          <button
-            type="submit"
-            onClick={e => this.handleSubmit(e)}
-            className="button-class"
-          >
-            SUBMIT
-          </button>
+          {this.button()}
+          
         </div>
+        {this.state.loading?<Loader />: ""}
       </div>
     );
   }
+
+  render() {
+    return <div>{this.signUpRender()}</div>
+  }
 }
 
-const mapStateToProps = state => {
-  return { signup: state.signUpReducer};
-};
+// const mapStateToProps = state => {
+//   return { signup: state.signUpReducer};
+// };
 
-export default connect(
-  mapStateToProps,
-  { signUp }
-)(SignUp);
+// export default connect(
+//   mapStateToProps,
+//   { signUp }
+// )(SignUp);

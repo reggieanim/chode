@@ -17,7 +17,9 @@ exports.sendMail = (req, res) => {
 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
+      console.log(err)
       res.json("could not send email")
+      return
     }
     res.json("thank you for contacting us");
   });

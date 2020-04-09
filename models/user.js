@@ -45,18 +45,22 @@ userSchema
 userSchema.methods = {
 
     authenticate: function(plaintext) {
+        
+        console.log(this.encryptPassword(plaintext))
+        
         return  this.encryptPassword(plaintext) === this.hashed_password
     },
 
     encryptPassword: function(password) {
-        if(!password) return "";
-        try {
         
-            return crypto.createHmac('sha1', this.salt)
-                            .update('password').digest('hex')
-           
+         if (!password) return "";
+        try {
+            return crypto
+                .createHmac("sha1", this.salt)
+                .update(password)
+                .digest("hex");
         } catch (err) {
-            console.log(err)
+            return "";
         }
     }
 }

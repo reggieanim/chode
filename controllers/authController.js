@@ -4,26 +4,30 @@ require('dotenv').config
 
 exports.signup = async (req, res) => {
     const userExists = await User.findOne({email: req.body.email})
-    if(userExists) return res.status(403).json({
-        error: "Email is taken!"
-    })
+    if(userExists) return res.status(403).send(
+        "Email is taken!"
+    )
 
     const user = await new User(req.body)
     await user.save()
-    res.status(200).json({ user });
+    res.status(200).json({ user:user.email, message:"signed up" });
 }
 
 exports.signin = (req, res) => {
+ 
     const {email, password} = req.body
+    
     User.findOne({email}, (err, user) => {
         if(err || !user) {
-            return res.status(401).json({
+            return res.status(401).send({
                 error: "User with email does not exist, Sign up please"
             })
         }
-
+        
+       
         if(!user.authenticate(password)) {
-            return res.status(401).json({
+            
+            return res.status(401).send({
                 error: "Email and password don't match"
             })
         }

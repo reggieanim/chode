@@ -5,12 +5,7 @@ export const SENDING_EMAIL = "SENDING_EMAIL";
 
 export const sendEmail = (email, name, message) => {
   return dispatch => {
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
-    };
+   
     let body = {
       email: email,
       name: name,
@@ -20,7 +15,7 @@ export const sendEmail = (email, name, message) => {
       type: SENDING_EMAIL
     });
     axios
-      .post("http://localhost:8080/contact", body, axiosConfig)
+      .post("http://localhost:8080/contact", body)
       .then(function(response) {
         dispatch({
           type: SENT_EMAIL,

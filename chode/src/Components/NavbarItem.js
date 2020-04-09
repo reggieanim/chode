@@ -1,14 +1,22 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import axios from "axios"
 
-class NavbarItem extends Component {
-  render() {
-    return (
-      <li className="list-item">
-        <Link to={this.props.url}>{this.props.label}</Link>
-      </li>
-    );
+const NavbarItem = (props) => {
+  const isActive = (history, path) => {
+    if (history.location.pathname === path) {
+    return {color: "red"}
+    }
   }
+
+
+ 
+  return (
+    <li className="list-item">
+      <Link to={props.url}style={isActive(props.history, props.url)}>{props.label} </Link>
+    </li>
+  );
+
 }
 
-export default NavbarItem;
+export default withRouter(NavbarItem);
