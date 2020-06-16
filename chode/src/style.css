@@ -1,0 +1,238 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.Lists {
+
+  /* float: left; */
+  list-style: none;
+  margin: 0 0 3em 0;
+  /* display: inline; */
+  width: 100%;
+}
+
+.logo {
+  font-family: "Fjalla One", sans-serif;
+  margin-right: 19px;
+  font-size: 2rem;
+}
+
+.Lists li {
+  float: left;
+  padding: 5px;
+}
+
+.list-item {
+  /* margin-top: 5px; */
+}
+
+.list-item a {
+  display: inline-block;
+  color: #363551;
+  margin-right: 8px;
+  font-size: 1.2rem;
+  font-family: "Fira Sans", sans-serif;
+  text-decoration: none;
+}
+
+.list-item a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s;
+}
+
+.list-item a:hover::after {
+  width: 100%;
+}
+
+/* end of navbar styling  */
+
+.Disclaimer {
+  float: right;
+  width: 35vw;
+  margin-right: 5vw;
+  padding: 15px;
+  font-family: "Fjalla One", sans-serif;
+  border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px;
+}
+
+.Form-container {
+  width: 30vw;
+  height: 50vh;
+  margin-left: 5vw;
+  background-color: white;
+  float: left;
+  /* border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px; */
+}
+
+.input {
+  font-family: "Fjalla One", sans-serif;
+  width: 20vw;
+  /* margin-right: 5vw; */
+  color: red;
+}
+
+.message-input {
+  width: 40vw;
+}
+
+/* button styles */
+.button-class {
+  font-family: "Fjalla One", sans-serif;
+  background-color: white;
+  border-style: dashed;
+  width: 6rem;
+  height: 3rem;
+  border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.button-class:hover {
+  transform: scale(1.1);
+  background-color: black;
+  color: white;
+  outline: none;
+  border-color: white;
+}
+
+.button-class:active {
+  transform: translateY(10%);
+  outline: none;
+}
+
+.CodeMirror {
+  width:auto;
+ height: auto;
+}
+
+.Editor {
+  width: 45vw;
+  margin-top: 3vh;
+ 
+}
+
+.Editor h2 {
+  font-size: 1.2rem;
+  font-family: "Fira Sans", sans-serif;
+  border-style: dashed;
+  border-color: #363551;
+  border-radius: 5px;
+  width: 100px;
+}
+
+.Parent-container {
+  /* background-color: red; */
+}
+
+.chatBox {
+  position: fixed;
+  left: 50%;
+  top:10vh;
+  /* border: solid; */
+  
+  /* background-color: red; */
+  max-height: 10vh;
+  width: 45vw;
+}
+
+.messageBox {
+  overflow-y: auto;
+  height: 40vh;
+  border-style: solid;
+  border-right:none;
+  padding: 5px;
+}
+
+
+/* .send-button {
+  position: absolute;
+  left: 67%;
+  
+  
+} */
+
+.message-form {
+  width:40%;
+  position: absolute;
+  top:89%;
+  
+}
+/* 
+.user-info {
+  position: absolute;
+  border: solid;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 0.5;
+
+  border-top: none;
+  border-color: #363551;
+  left: 90%;
+  padding:4px;
+  height:9%;
+} */
+
+.chat-message  {
+  border-style: solid;
+  width:fit-content;
+  font-family: "Fira Sans", sans-serif;
+  padding:2px;
+  max-width: 80%;
+  margin-bottom: 5px;
+  overflow: auto;
+}
+
+.chat-receive {
+  border-style: solid;
+  width:fit-content;
+  font-family: "Fira Sans", sans-serif;
+  padding:2px;
+  max-width: 80%;
+  margin-bottom: 5px;
+  position: absolute;
+  left:100%;
+  
+}
+
+.user {
+  background-color: #000000;
+  color: white;
+  margin-right: 3px;
+  font-size: 1rem;
+  
+}
+
+.home {
+  margin-left: 4%;
+  margin-top: 5%;
+}

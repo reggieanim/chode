@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { sendEmail } from "../actions/sendEmail";
 

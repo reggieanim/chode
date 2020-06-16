@@ -1,4 +1,6 @@
-const express = require("express");
+const app = require("express")();
+const server = require('http').Server(app)
+require('./socket-server')(server)
 const parser = require("body-parser");
 const morgan = require("morgan");
 const cookieParser = require('cookie-parser')
@@ -8,6 +10,7 @@ const expressValidator = require("express-validator");
 require("dotenv").config();
 const emailRoute = require("./routes/emailRoute");
 const userRoute = require("./routes/userRoute")
+const sessionRoute = require("./routes/sessionRoute")
 
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true})
@@ -19,7 +22,7 @@ mongoose.connection.on('error', err => {
   console.log(`Db connection error: ${err.message}`)
 })
 
-const app = express();
+// const app = express();
 app.use(parser.json());
 app.use(cookieParser())
 app.use(expressValidator());
@@ -38,7 +41,8 @@ app.use(cors());
 
 app.use("/", emailRoute);
 app.use("/", userRoute)
+app.use("/", sessionRoute)
 
-app.listen(process.env.PORT || 8080, function() {
+server.listen(process.env.PORT || 8080, function() {
   console.log("listening");
 });

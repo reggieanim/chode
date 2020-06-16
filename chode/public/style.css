@@ -110,3 +110,8 @@ body {
   transform: translateY(10%);
   outline: none;
 }
+
+.Editor {
+  background-attachment: red;
+}
+
