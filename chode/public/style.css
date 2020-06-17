@@ -111,7 +111,7 @@ body {
   outline: none;
 }
 
-.Editor {
+#Editor {
   background-attachment: red;
 }
 
