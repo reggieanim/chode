@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material.css'
 import "./style.css"
-
+// ('dotenv').config()
 import Home from "./Components/Home";
 import Contact from "./Components/Contact";
 import NoMatch from "./Components/NoMatch";
@@ -14,6 +15,7 @@ import Session from "./Components/Session"
 
 class App extends Component {
   render() {
+  
     return (
       <BrowserRouter>
       <Navbar />

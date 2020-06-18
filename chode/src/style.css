@@ -4,6 +4,11 @@ body {
   box-sizing: border-box;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -153,25 +158,25 @@ body {
 
 .Parent-container {
   /* background-color: red; */
+  width: 100vw;
 }
 
 .chatBox {
   position: fixed;
   left: 50%;
-  top:10vh;
-  /* border: solid; */
-  
-  /* background-color: red; */
-  max-height: 10vh;
-  width: 45vw;
+  top:70.5vh;
+
+  /* max-height: 10vh; */
+  width: 30vw;
 }
 
 .messageBox {
   overflow-y: auto;
-  height: 40vh;
+  height: 20vh;
   border-style: solid;
   border-right:none;
   padding: 5px;
+  
 }
 
 
@@ -210,6 +215,7 @@ body {
   max-width: 80%;
   margin-bottom: 5px;
   overflow: auto;
+  background-color: #f0f0f0;
 }
 
 .chat-receive {
@@ -235,4 +241,48 @@ body {
 .home {
   margin-left: 4%;
   margin-top: 5%;
+}
+
+#video-container {
+  position: fixed;
+  left: 50%;
+  top:10vh;
+  height: 60vh;
+  /* max-height: 10vh; */
+  border-style: solid;
+  border-right:none;
+  width: 30vw;
+}
+
+#video-container video {
+  width: 20vw;
+  margin-left: 2.5vw;
+  height: 23vh;
+  /* border: solid; */
+  
+  margin-top: 1vh;
+  background-color: #f0f0f0;
+}
+
+#video-container p {
+  font-family: "Fjalla One", sans-serif;
+  display: inline;
+  margin-left: 2vw;
+  
+}
+
+.id_form {
+  margin-left: 2vw;
+  display: inline;
+  margin-right: 1vw;
+}
+
+.mic {
+  width: 13%;
+  margin-left: 13px;
+  background:url('/microphone.svg') no-repeat left center;
+}
+.camera {
+  width: 16%;
+  margin-left: 13px;
 }

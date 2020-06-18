@@ -22,7 +22,7 @@ exports.sessionOpen = (req, res) => {
                 res.json("session could not be found")
             }
             if(data) {
-                res.json({data})
+                res.json({content:data.content, roomId:data._id})
             }
             else {
                 console.log(err)
