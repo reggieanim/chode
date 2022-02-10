@@ -8,7 +8,7 @@
     "axios": "^0.18.0",
     "codemirror": "^5.52.2",
     "dotenv": "^8.2.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "ot": "git+https://github.com/Operational-Transformation/ot.js.git",
     "peerjs": "^1.2.0",
     "react": "^16.8.6",
